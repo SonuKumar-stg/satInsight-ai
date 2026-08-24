@@ -1,88 +1,277 @@
-# SatInsight AI
-**AI-powered Satellite Data Analysis Platform**
-*IBM AI Builders Challenge — August 2026*
+ # SatInsight AI
 
----
+**AI-powered Satellite Data Analysis Platform**  
+*IBM AI Builders Challenge — August 2026*
 
 ## Overview
 
-SatInsight AI transforms complex satellite telemetry data into clear, actionable insights using AI/ML. Upload a CSV of satellite telemetry (or load the bundled sample dataset) and get anomaly detection, interactive charts, AI-generated explanations, and recommended actions — all in a space-themed dashboard.
+SatInsight AI is an AI/ML-powered satellite telemetry analysis platform that transforms complex satellite data into clear, actionable insights.
+
+Users can upload satellite telemetry data in CSV format or use the bundled sample dataset. The platform performs automated data analysis, anomaly detection, visualization, risk classification, and AI-generated recommendations through a space-themed interactive dashboard.
+
+The platform helps users quickly identify abnormal satellite behaviour across parameters such as temperature, radiation, pressure, battery level, signal strength, velocity, and altitude.
+
+---
+
+## Problem Statement
+
+Satellite telemetry produces large volumes of sensor data that can be difficult to monitor manually.
+
+Important problems such as:
+
+- Thermal abnormalities
+- Battery failures
+- Radiation spikes
+- Signal degradation
+- Pressure drops
+- Orbital altitude changes
+- Unexpected velocity changes
+- Multi-sensor failures
+
+may be difficult to identify quickly when analysing raw telemetry data.
+
+SatInsight AI addresses this problem by automatically analysing telemetry data, detecting anomalies, identifying their severity, explaining potential causes, and recommending appropriate actions.
+
+---
+
+## Solution
+
+SatInsight AI provides an end-to-end telemetry analysis workflow:
+
+1. Upload or load satellite telemetry data.
+2. Validate and process the dataset.
+3. Calculate statistical characteristics of telemetry parameters.
+4. Detect anomalies using machine-learning and statistical techniques.
+5. Classify detected events as Normal, Warning, or Critical.
+6. Identify correlated multi-sensor anomalies.
+7. Generate explanations and recommended actions.
+8. Display results through interactive charts and tables.
+9. Generate a consolidated analysis report.
+
+---
+
+## Key Features
+
+### 📊 Satellite Telemetry Dashboard
+
+- View satellite telemetry data in a structured table.
+- Pagination for large datasets.
+- Display timestamp, temperature, radiation, pressure, battery, signal, velocity, and altitude.
+
+### 🔍 Anomaly Detection
+
+The platform combines:
+
+- Isolation Forest
+- Rolling/statistical Z-score analysis
+- Parameter-level anomaly detection
+- Multi-sensor correlation
+
+Detected events are classified into:
+
+- 🟢 Normal
+- 🟠 Warning
+- 🔴 Critical
+
+### 🤖 AI Insights
+
+The system automatically generates explanations for detected anomalies.
+
+Examples include:
+
+- Correlated multi-sensor anomalies
+- Elevated thermal readings
+- Critical battery levels
+- Orbital altitude decay
+- Pressure anomalies
+- Unexpected velocity changes
+
+Each insight includes:
+
+- Severity
+- Affected parameter(s)
+- Observed range
+- Event rows
+- Explanation
+- Recommended action
+
+### 📈 Data Analysis
+
+The platform provides statistical analysis including:
+
+- Mean
+- Standard deviation
+- Minimum
+- Maximum
+- Quartiles
+- Median
+- IQR
+- Missing-value count
+
+### 📑 Reports
+
+The Reports page provides:
+
+- Session summary
+- Total telemetry rows
+- Total anomalies
+- Risk breakdown
+- Parameter statistics
+- Analysis status
+
+---
 
 ## Architecture
 
 | Layer | Technology |
 |---|---|
-| Frontend | React 18 + TypeScript + Vite + Tailwind CSS |
-| State | Zustand |
+| Frontend | React 18 + TypeScript + Vite |
+| Styling | Tailwind CSS |
+| State Management | Zustand |
 | Charts | Recharts |
-| Backend | FastAPI (Python 3.11+) |
-| Data processing | Pandas |
-| Anomaly detection | Scikit-learn — Isolation Forest + Z-Score |
-| AI explanations | Rule-based template engine (IBM Watson slot available) |
+| HTTP Client | Axios |
+| Backend | FastAPI |
+| Language | Python 3.11+ |
+| Data Processing | Pandas |
+| Machine Learning | Scikit-learn |
+| Anomaly Detection | Isolation Forest + Z-score |
+| API Documentation | Swagger / OpenAPI |
+| AI Insights | Rule-based AI insight generation |
 
 ---
 
-## Prerequisites
+## AI / ML Approach
 
-- **Python 3.11+** (Python 3.14 tested; pydantic pre-release required for 3.14)
-- **Node.js 18+** and npm
+SatInsight AI uses a combination of machine learning and statistical analysis.
 
----
+### Isolation Forest
 
-## Quick Start
+Isolation Forest is used to identify unusual telemetry observations by measuring how easily observations can be isolated from the normal data distribution.
 
-### 1. Clone the repo
+### Z-score / Statistical Detection
 
-```bash
-git clone https://github.com/your-org/satinsight-ai.git
-cd satinsight-ai
-```
+Statistical analysis is used to identify values that significantly deviate from expected behaviour.
 
-### 2. Start the backend
+### Multi-Sensor Correlation
 
-```bash
-cd backend
+The platform also analyses simultaneous anomalies across multiple telemetry parameters.
 
-# Create and activate a virtual environment
-python3 -m venv .venv
-source .venv/bin/activate          # Windows: .venv\Scripts\activate
+When several sensors become anomalous during the same time window, the system generates a correlated multi-sensor insight.
 
-# Install dependencies
-# Note: Python 3.14 users need pydantic pre-release (installed automatically)
-pip install --pre pydantic pydantic-settings
-pip install -r requirements.txt
+This helps identify possible common-cause events such as:
 
-# Copy env file (optional — defaults work for local dev)
-cp .env.example .env
-
-# Start the server
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
-```
-
-Backend runs at **http://localhost:8000**
-Swagger API docs at **http://localhost:8000/docs**
-
-### 3. Start the frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Frontend runs at **http://localhost:5173**
-
-> The Vite dev server proxies `/api` requests to `http://localhost:8000` automatically.
+- Power-related failures
+- Solar events
+- Thermal problems
+- Software faults
+- Sensor/system failures
 
 ---
 
-## Sample Dataset
+## AI Insight Generation
 
-`backend/data/sample_satellite.csv` — 600 rows of synthetic satellite telemetry with **10 injected anomaly windows**:
+The current prototype uses a rule-based AI insight generation layer that converts anomaly patterns into human-readable explanations and recommended actions.
+
+The architecture is designed so that the insight-generation layer can later be connected to external AI services such as IBM Watson or other large language model APIs without changing the core anomaly-detection workflow.
+
+---
+
+## Challenge Theme
+
+SatInsight AI addresses the challenge of using AI to make space exploration and satellite operations more insight-driven.
+
+The project focuses on:
+
+- Helping scientists and engineers understand satellite telemetry.
+- Supporting better decision-making in complex environments.
+- Converting large volumes of satellite data into actionable insights.
+- Detecting potentially dangerous satellite conditions earlier.
+- Providing understandable explanations instead of only raw anomaly scores.
+
+---
+
+## How IBM Bob Was Used
+
+IBM Bob was used as the **primary development tool** throughout the development of SatInsight AI.
+
+IBM Bob assisted with:
+
+- Project architecture and planning
+- Backend development
+- FastAPI route implementation
+- Pydantic data models
+- Telemetry data processing
+- Anomaly detection workflow
+- AI insight generation
+- React and TypeScript frontend development
+- UI component development
+- Dashboard implementation
+- Charts and data tables
+- API integration
+- State management using Zustand
+- Testing and debugging
+- Full-stack integration
+- Build validation
+- Final application polishing
+
+IBM Bob was used to develop and integrate the backend, frontend, anomaly detection, insight generation, and reporting workflow into a working full-stack prototype.
+
+---
+
+## Validation Results
+
+The completed application was validated through backend tests, frontend builds, and an end-to-end API workflow.
+
+### Backend
+
+- **91/91 backend tests passing**
+- All backend API routes registered
+- Swagger/OpenAPI documentation available
+
+### Frontend
+
+- TypeScript build completed successfully
+- **0 TypeScript errors**
+- **0 type warnings**
+- 672 modules successfully built
+
+### End-to-End Analysis
+
+Using the sample satellite dataset:
+
+- **600 telemetry rows**
+- **106 detected anomalies**
+- **494 Normal**
+- **80 Warning**
+- **26 Critical**
+- **10 AI insight cards**
+
+---
+
+ ## Sample Dataset
+
+The bundled dataset is:
+
+`backend/data/sample_satellite.csv`
+
+The dataset contains **600 rows** of synthetic satellite telemetry.
+
+### Telemetry Parameters
+
+- `timestamp`
+- `temperature`
+- `radiation`
+- `pressure`
+- `battery_level`
+- `signal_strength`
+- `velocity`
+- `altitude`
+
+### Injected Anomaly Windows
 
 | Rows | Event | Severity |
 |---|---|---|
-| 80–82 | Solar flare (radiation spike) | Critical |
+| 80–82 | Solar flare / radiation spike | Critical |
 | 140–155 | Thermal runaway | Critical |
 | 200–215 | Battery drain event | Critical |
 | 260–268 | Signal loss | Warning |
@@ -93,60 +282,130 @@ Frontend runs at **http://localhost:5173**
 | 530 | Isolated temperature spike | Critical |
 | 560 | Isolated battery critical | Critical |
 
-**Parameters:** `timestamp`, `temperature`, `radiation`, `pressure`, `battery_level`, `signal_strength`, `velocity`, `altitude`
+---
+
+## Example Analysis Results
+
+The sample dataset produced:
+
+| Risk Level | Count | Percentage |
+|---|---:|---:|
+| Normal | 494 | 82.3% |
+| Warning | 80 | 13.3% |
+| Critical | 26 | 4.3% |
+| **Total** | **600** | **100%** |
+
+**Total anomalies detected: 106**
 
 ---
 
-## MVP Build Phases
+## Parameter Anomaly Counts
 
-| Phase | Sub-Task | Status |
-|---|---|---|
-| 1 | Project Scaffolding + Sample Data | ✅ Complete |
-| 2 | Backend Core: Data Processing + API Endpoints | ⏳ Pending |
-| 3 | AI/ML Core: Anomaly Detection + Insight Generation | ⏳ Pending |
-| 4 | Frontend Core: Layout, State, API Client | ⏳ Pending |
-| 5 | Frontend Features: Charts, Tables, All Pages | ⏳ Pending |
-| 6 | Integration, Polish, and Report Endpoint | ⏳ Pending |
+| Parameter | Anomalies |
+|---|---:|
+| Battery Level | 27 |
+| Temperature | 26 |
+| Signal Strength | 22 |
+| Radiation | 21 |
+| Velocity | 17 |
+| Altitude | 13 |
+| Pressure | 9 |
+
+---
+
+## Example AI Insights
+
+The system can generate insights such as:
+
+### Correlated Multi-Sensor Anomaly
+
+Multiple telemetry parameters can become abnormal simultaneously across consecutive readings.
+
+**Recommended action:** Perform a cross-subsystem health check, review the event timeline, investigate common triggering events, and consider safe-mode operation until the root cause is established.
+
+### Elevated Thermal Readings
+
+A significant temperature increase may indicate solar exposure or thermal-control problems.
+
+**Recommended action:** Review thermal-control telemetry and verify heater/cooler status.
+
+### Critical Battery Level
+
+A severe battery drop may indicate a power-generation problem, excessive subsystem load, or insufficient charge recovery.
+
+**Recommended action:** Reduce non-essential loads and verify solar-panel orientation and power-distribution status.
+
+### Orbital Altitude Decay
+
+A significant altitude decrease may indicate increased atmospheric drag and potential orbital decay.
+
+**Recommended action:** Increase monitoring and evaluate the need for an orbit-maintenance manoeuvre.
 
 ---
 
 ## Project Structure
 
-```
+```text
 satinsight-ai/
 ├── README.md
 ├── .gitignore
 ├── backend/
-│   ├── main.py                  # FastAPI entry point
+│   ├── main.py
 │   ├── requirements.txt
 │   ├── .env.example
 │   ├── api/
-│   │   ├── routes/              # data, analysis, anomalies, insights, reports
-│   │   └── models/              # Pydantic schemas
-│   ├── core/                    # config, session store, exceptions
-│   ├── services/                # data_processor, anomaly_detector, insight_generator, report_builder
-│   └── data/
-│       └── sample_satellite.csv
+│   │   ├── models/
+│   │   └── routes/
+│   ├── core/
+│   ├── services/
+│   ├── data/
+│   │   └── sample_satellite.csv
+│   └── tests/
 └── frontend/
+    ├── package.json
+    ├── vite.config.ts
     └── src/
-        ├── pages/               # 6 page components (Sub-Task 4+)
-        ├── components/          # charts, tables, ui primitives (Sub-Task 4+)
-        ├── store/               # Zustand store (Sub-Task 4+)
-        └── api/                 # Axios client (Sub-Task 4+)
+        ├── api/
+        ├── components/
+        ├── pages/
+        ├── store/
+        └── types/
 ```
 
----
+## Quick Start
 
-## Future Integration Points
+### 1. Clone the Repository
 
-- **NASA Open APIs** (DONKI, EONET) → `backend/services/nasa_adapter.py`
-- **IBM Watson NLP** → swap `insight_generator.py` with Watson NLU API
-- **OpenAI GPT** → same swap, same response schema
-- **Real-time streaming** → Redis + WebSocket
-- **PostgreSQL + TimescaleDB** → replace in-memory session
+```bash
+git clone https://github.com/SonuKumar-stg/satInsight-ai.git
+cd satInsight-ai
+```
+### 2. Start the Backend
 
----
+```bash
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
 
-## License
+Backend: `http://localhost:8000`
 
-MIT — see [LICENSE](LICENSE)
+Swagger API Documentation: `http://localhost:8000/docs`
+
+### 3. Start the Frontend
+
+Open a new terminal:
+
+```bash
+cd satInsight-ai/frontend
+npm install
+npm run dev
+```
+
+Frontend: `http://localhost:5173`
+ 
+
+ 
+ 
