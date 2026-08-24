@@ -1,0 +1,19 @@
+# SatInsight AI — Backend Dependencies
+# Tested on Python 3.14 (arm64 macOS)
+#
+# NOTE: fastapi 0.115.x + starlette 0.46.x is required.
+# fastapi >=0.139 introduced _IncludedRouter which breaks ASGI dispatch
+# on some Python 3.14 / uvicorn combinations.
+
+fastapi==0.115.12
+starlette==0.46.2
+uvicorn[standard]>=0.30.0
+python-multipart>=0.0.9
+pydantic>=2.7.4            # pre-release required for Python 3.14
+pydantic-settings>=2.3.4
+pandas>=2.2.0
+numpy>=1.26.0
+scikit-learn>=1.5.0
+python-dotenv>=1.0.0
+httpx2>=0.27.0             # fastapi TestClient transport
+pytest>=8.0.0

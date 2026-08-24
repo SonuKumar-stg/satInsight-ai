@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+/* ============================================================
+   SatInsight AI — Global Space Theme
+   ============================================================ */
+
+:root {
+  --color-space-950: #020817;
+  --color-space-900: #0a1628;
+  --color-space-800: #0d1f3c;
+  --color-space-700: #122347;
+  --color-space-600: #1a3050;
+  --color-accent-blue: #3b82f6;
+  --color-accent-cyan: #06b6d4;
+  --color-warning: #f59e0b;
+  --color-critical: #ef4444;
+  --color-normal: #22c55e;
+  --color-muted: #64748b;
+  --color-border: #1e3a5f;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  background-color: var(--color-space-950);
+  color: #e2e8f0;
+  font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--color-space-900); }
+::-webkit-scrollbar-thumb { background: var(--color-space-600); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-accent-blue); }
